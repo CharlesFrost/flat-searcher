@@ -36,14 +36,14 @@ public class Scrapper {
         StringBuilder sb = new StringBuilder("Nowe mieszkaia to: ");
         int counter=0;
         for (String link : getAllLinks()) {
-            if (flatRepository.findByLink(link)==null) {
+            if (flatRepository.findByLinkCustom(link)==null) {
                 flatRepository.save(new Flat(link, LocalDate.now()));
                 sb.append("\n"+link);
                 counter++;
             }
         }
        if (counter>0) {
-            emailService.sendSimpleMessage("email@email.pl", "nowe mieszkanie", sb.toString());
+            emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
        }
     }
 
