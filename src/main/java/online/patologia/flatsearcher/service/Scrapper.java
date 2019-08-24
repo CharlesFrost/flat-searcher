@@ -36,7 +36,7 @@ public class Scrapper {
         StringBuilder sb = new StringBuilder("Nowe mieszkaia to: ");
         int counter=0;
         for (String link : getAllLinks()) {
-            if (flatRepository.findByLinkCustom(link)==null) {
+            if (flatRepository.findByLinkLike(link)==null) {
                 flatRepository.save(new Flat(link, LocalDate.now()));
                 sb.append("\n"+link);
                 counter++;
