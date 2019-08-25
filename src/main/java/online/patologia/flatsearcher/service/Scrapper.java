@@ -27,13 +27,9 @@ public class Scrapper {
     private EmailService emailService;
 
 
-//    @Scheduled(fixedDelay = 10000)
-//    public void xD() throws IOException{
-//        System.out.println(getAllLinks().get(0));
-//    }
-    @Scheduled(fixedDelay = 300000)
+    @Scheduled(fixedDelay = 10000)
     public void checkIfThereIsNewFlat() throws IOException {
-        StringBuilder sb = new StringBuilder("Nowe mieszkaia to: ");
+        StringBuilder sb = new StringBuilder("Nowe mieszkania to: ");
         int counter=0;
         for (String link : getAllLinks()) {
             if (flatRepository.findByLinkStartsWith(link)==null) {
@@ -43,7 +39,8 @@ public class Scrapper {
             }
         }
        if (counter>0) {
-            emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
+           emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
+
        }
     }
 
@@ -58,9 +55,8 @@ public class Scrapper {
         Document doc = Jsoup
             .connect("https://www.olx.pl/nieruchomosci/mieszkania/wynajem/gdynia/?search%5Bfilter_float_price%3Afrom%5D=1000&search%5Bfilter_float_price%3Ato%5D=3400&search%5Bfilter_enum_rooms%5D%5B0%5D=three&search%5Bdist%5D=15")
             .get();
-
-        Elements promotedElements = doc.getElementsByClass("thumb vtop inlblk rel tdnone linkWithHash scale4 detailsLinkPromoted ");
-        for (Element element : promotedElements) {
+        Elements elements = doc.getElementsByAttributeValueContaining("class","thumb vtop inlblk rel tdnone linkWithHash scale4 detailsLink");
+        for (Element element : elements) {
             String s = element.attr("href").split("html")[0];
             s+="html";
             links.add(s);
@@ -70,22 +66,6 @@ public class Scrapper {
         links.remove(0);
         links.remove(0);
         links.remove(0);
-
-        Elements elements = doc.getElementsByClass("thumb vtop inlblk rel tdnone linkWithHash scale4 detailsLink ");
-        for (Element element : elements) {
-            String s = element.attr("href").split("html")[0];
-            s+="html";
-            int exist=0;
-            for (String link : links) {
-                if (link.equals(s)) {
-                    exist++;
-                }
-            }
-            if (exist==0) {
-                links.add(s);
-            }
-        }
-
 
         return links;
     }
