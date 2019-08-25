@@ -27,7 +27,7 @@ public class Scrapper {
     private EmailService emailService;
 
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 300000)
     public void checkIfThereIsNewFlat() throws IOException {
         StringBuilder sb = new StringBuilder("Nowe mieszkania to: ");
         int counter=0;
@@ -52,6 +52,7 @@ public class Scrapper {
 
     public List<String> getAllLinks() throws IOException {
         List<String> links = new ArrayList<>();
+        List<String> finalList = new ArrayList<>();
         Document doc = Jsoup
             .connect("https://www.olx.pl/nieruchomosci/mieszkania/wynajem/gdynia/?search%5Bfilter_float_price%3Afrom%5D=1000&search%5Bfilter_float_price%3Ato%5D=3400&search%5Bfilter_enum_rooms%5D%5B0%5D=three&search%5Bdist%5D=15")
             .get();
@@ -59,6 +60,7 @@ public class Scrapper {
         for (Element element : elements) {
             String s = element.attr("href").split("html")[0];
             s+="html";
+
             links.add(s);
         }
         links.remove(0);
@@ -67,7 +69,28 @@ public class Scrapper {
         links.remove(0);
         links.remove(0);
 
-        return links;
+        //////////////////////////
+        for (String link : links) {
+            Document docCheck = Jsoup.connect(link).get();
+            Elements elementsCheck = docCheck.getElementsByClass("pdingtop10");
+            for (Element elementCheck : elementsCheck) {
+                String xD = elementCheck.getElementsByTag("strong").toString();
+                if (xD.contains("strong")) {
+                    //xD = xD.substring(xD.indexOf("<strong>")+1);
+                    xD = xD.split("</strong>")[0];
+                    xD = xD.replace("<strong>", "");
+                    xD = xD.replace(" ", "");
+                    xD = xD.replace("   ", "");
+
+                    int i = Integer.parseInt(xD);
+                    if (i < 100) {
+                        finalList.add(link);
+                    }
+                }
+
+            }
+        }
+        return finalList;
     }
 
     @Bean
