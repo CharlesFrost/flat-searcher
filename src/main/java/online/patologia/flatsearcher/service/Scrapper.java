@@ -45,8 +45,6 @@ public class Scrapper {
        if (counter>0) {
             emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
        }
-        System.out.println(flatRepository.findByLink("https://www.olx.pl/oferta/wynajem-340-zl-doba-nowy-apartamentowiec-gdansk-przymorze-8min-do-mo").getLink());
-
     }
 
     public void saveAllLinks(List<String> links) {
