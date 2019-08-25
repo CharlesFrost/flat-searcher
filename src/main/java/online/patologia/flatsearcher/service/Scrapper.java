@@ -31,7 +31,7 @@ public class Scrapper {
 //    public void xD() throws IOException{
 //        System.out.println(getAllLinks().get(0));
 //    }
-    @Scheduled(fixedDelay = 200000)
+    @Scheduled(fixedDelay = 300000)
     public void checkIfThereIsNewFlat() throws IOException {
         StringBuilder sb = new StringBuilder("Nowe mieszkaia to: ");
         int counter=0;
