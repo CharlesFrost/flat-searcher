@@ -36,7 +36,7 @@ public class Scrapper {
         StringBuilder sb = new StringBuilder("Nowe mieszkaia to: ");
         int counter=0;
         for (String link : getAllLinks()) {
-            if (flatRepository.findByLink(link)==null) {
+            if (flatRepository.findByLinkStartsWith(link)==null) {
                 flatRepository.save(new Flat(link, LocalDate.now()));
                 sb.append("\n"+link);
                 counter++;
@@ -60,7 +60,9 @@ public class Scrapper {
             .get();
         Elements elements = doc.getElementsByClass("thumb vtop inlblk rel tdnone linkWithHash scale4 detailsLink ");
         for (Element element : elements) {
-        links.add(element.attr("href"));
+            String s = element.attr("href").split("html")[0];
+            s+="html";
+        links.add(s);
         }
         return links;
     }

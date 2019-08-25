@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FlatRepository extends CrudRepository<Flat,Long> {
-    Flat findByLink(String link);
+    @Query(value = "SELECT * FROM FLAT WHERE LINK LIKE ?1%", nativeQuery = true)
+    Flat findByLinkStartsWith(String link);
 }
