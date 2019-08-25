@@ -36,7 +36,7 @@ public class Scrapper {
         StringBuilder sb = new StringBuilder("Nowe mieszkaia to: ");
         int counter=0;
         for (String link : getAllLinks()) {
-            if (flatRepository.findByLinkLike(link)==null) {
+            if (flatRepository.findByLink(link)==null) {
                 flatRepository.save(new Flat(link, LocalDate.now()));
                 sb.append("\n"+link);
                 counter++;
@@ -45,6 +45,8 @@ public class Scrapper {
        if (counter>0) {
             emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
        }
+        System.out.println(flatRepository.findByLink("https://www.olx.pl/oferta/wynajem-340-zl-doba-nowy-apartamentowiec-gdansk-przymorze-8min-do-mo").getLink());
+
     }
 
     public void saveAllLinks(List<String> links) {
@@ -69,6 +71,6 @@ public class Scrapper {
     CommandLineRunner runner() {
         return args -> {
             saveAllLinks(getAllLinks());
-        };
+            };
     }
 }

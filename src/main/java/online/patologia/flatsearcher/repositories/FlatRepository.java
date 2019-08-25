@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FlatRepository extends CrudRepository<Flat,Long> {
-    Flat findByLinkLike(String link);
+    Flat findByLink(String link);
 }
