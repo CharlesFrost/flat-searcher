@@ -44,7 +44,6 @@ public class Scrapper {
         }
        if (counter>0) {
             emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
-            emailService.sendSimpleMessage("storfugl1@gmail.com ", "nowe mieszkania", sb.toString());
        }
     }
 
