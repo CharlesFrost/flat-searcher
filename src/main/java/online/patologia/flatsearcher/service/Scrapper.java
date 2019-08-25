@@ -44,6 +44,7 @@ public class Scrapper {
         }
        if (counter>0) {
             emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
+            emailService.sendSimpleMessage("storfugl1@gmail.com ", "nowe mieszkania", sb.toString());
        }
     }
 
@@ -58,14 +59,21 @@ public class Scrapper {
         Document doc = Jsoup
             .connect("https://www.olx.pl/nieruchomosci/mieszkania/wynajem/gdynia/?search%5Bfilter_float_price%3Afrom%5D=1000&search%5Bfilter_float_price%3Ato%5D=3400&search%5Bfilter_enum_rooms%5D%5B0%5D=three&search%5Bdist%5D=15")
             .get();
-        Elements elements = doc.getElementsByClass("thumb vtop inlblk rel tdnone linkWithHash scale4 detailsLink ");
-        for (Element element : elements) {
-            String s = element.attr("href").split("html")[0];
-            s+="html";
-        links.add(s);
-        }
+
         Elements promotedElements = doc.getElementsByClass("thumb vtop inlblk rel tdnone linkWithHash scale4 detailsLinkPromoted ");
         for (Element element : promotedElements) {
+            String s = element.attr("href").split("html")[0];
+            s+="html";
+            links.add(s);
+        }
+        links.remove(0);
+        links.remove(0);
+        links.remove(0);
+        links.remove(0);
+        links.remove(0);
+
+        Elements elements = doc.getElementsByClass("thumb vtop inlblk rel tdnone linkWithHash scale4 detailsLink ");
+        for (Element element : elements) {
             String s = element.attr("href").split("html")[0];
             s+="html";
             int exist=0;
@@ -78,6 +86,8 @@ public class Scrapper {
                 links.add(s);
             }
         }
+
+
         return links;
     }
 
