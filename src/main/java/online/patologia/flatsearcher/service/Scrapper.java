@@ -40,7 +40,6 @@ public class Scrapper {
         }
        if (counter>0) {
            emailService.sendSimpleMessage("mefedroniarzodmieszkan@gmail.com", "nowe mieszkanie", sb.toString());
-
        }
     }
 
@@ -74,15 +73,15 @@ public class Scrapper {
             Document docCheck = Jsoup.connect(link).get();
             Elements elementsCheck = docCheck.getElementsByClass("pdingtop10");
             for (Element elementCheck : elementsCheck) {
-                String xD = elementCheck.getElementsByTag("strong").toString();
-                if (xD.contains("strong")) {
+                String numberOfViews = elementCheck.getElementsByTag("strong").toString();
+                if (numberOfViews.contains("strong")) {
                     //xD = xD.substring(xD.indexOf("<strong>")+1);
-                    xD = xD.split("</strong>")[0];
-                    xD = xD.replace("<strong>", "");
-                    xD = xD.replace(" ", "");
-                    xD = xD.replace("   ", "");
+                    numberOfViews = numberOfViews.split("</strong>")[0];
+                    numberOfViews = numberOfViews.replace("<strong>", "");
+                    numberOfViews = numberOfViews.replace(" ", "");
+                    numberOfViews = numberOfViews.replace("   ", "");
 
-                    int i = Integer.parseInt(xD);
+                    int i = Integer.parseInt(numberOfViews);
                     if (i < 100) {
                         finalList.add(link);
                     }
